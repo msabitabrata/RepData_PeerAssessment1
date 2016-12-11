@@ -20,31 +20,12 @@ steps_taken <- activity_data %>% group_by(date) %>% summarise(steps = sum(steps,
 ```
 
 2. Make a histogram of the total number of steps taken each day
-
-```r
-hist(steps_taken$steps, main="Total number of steps taken each day", xlab="Steps",col="yellow")
-```
-
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 3. Calculate and report the mean and median of the total number of steps taken per day
 
 ```r
+hist(steps_taken$steps, main="Total number of steps taken each day", xlab="Steps",col="yellow")
 abline(v=mean(steps_taken$steps),col="purple")
-```
-
-```
-## Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet
-```
-
-```r
 abline(v=median(steps_taken$steps),col="red")
-```
-
-```
-## Error in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): plot.new has not been called yet
-```
-
-```r
 legend("right",
 	legend=c(paste("Mean = ",trunc(mean(steps_taken$steps))), paste("Median = ", trunc(median(steps_taken$steps)))),
 	col=c("purple","red"),
@@ -53,31 +34,21 @@ legend("right",
 	lwd=c(1,1,1))
 ```
 
-```
-## Error in strwidth(legend, units = "user", cex = cex, font = text.font): plot.new has not been called yet
-```
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
 ## What is the average daily activity pattern?
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 steps_interval <- activity_data %>% group_by(interval) %>% summarise(steps = mean(steps,na.rm=TRUE))
 plot(x=steps_interval$interval,y=steps_interval$steps,type="l",xlab="5-minute interval",ylab="Average number of steps taken")
-```
-
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
-
-2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-
-```r
 max_steps_interval <- steps_interval$interval[which.max(steps_interval$steps)]
 max_steps <- steps_interval$steps[which.max(steps_interval$steps)]
 text(max_steps_interval, max_steps, labels=c(paste("Max step of ",round(max_steps,digits=2)," at interval ",max_steps_interval)), cex= 0.7)
 ```
 
-```
-## Error in text.default(max_steps_interval, max_steps, labels = c(paste("Max step of ", : plot.new has not been called yet
-```
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
 
 ## Imputing missing values
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
@@ -114,7 +85,7 @@ legend("right",
 	lwd=c(1,1,1))
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
 5. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 There is no impact of the missing data on the estimates of total steps and mean/median. As I have used mean steps of that day to replace the NA values, it seems that the day containing the NA values do not contain any valid values; thus the days containg NA value generates zero steps even after replacing them with mean of that day(0).
 
@@ -132,4 +103,4 @@ steps_interval_daysofweek <- activity_data_daysofweek %>% group_by(interval,type
 xyplot(steps~interval | type_of_day, data=activity_data_daysofweek,type="l",xlab="5-minute interval",ylab="Average number of steps taken",layout = c(1,2))
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)

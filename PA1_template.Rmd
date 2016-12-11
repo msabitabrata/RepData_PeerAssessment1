@@ -18,11 +18,9 @@ steps_taken <- activity_data %>% group_by(date) %>% summarise(steps = sum(steps,
 ```
 
 2. Make a histogram of the total number of steps taken each day
-```{r echo = TRUE}
-hist(steps_taken$steps, main="Total number of steps taken each day", xlab="Steps",col="yellow")
-```
 3. Calculate and report the mean and median of the total number of steps taken per day
 ```{r echo = TRUE}
+hist(steps_taken$steps, main="Total number of steps taken each day", xlab="Steps",col="yellow")
 abline(v=mean(steps_taken$steps),col="purple")
 abline(v=median(steps_taken$steps),col="red")
 legend("right",
@@ -35,13 +33,10 @@ legend("right",
 
 ## What is the average daily activity pattern?
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 ```{r echo = TRUE}
 steps_interval <- activity_data %>% group_by(interval) %>% summarise(steps = mean(steps,na.rm=TRUE))
 plot(x=steps_interval$interval,y=steps_interval$steps,type="l",xlab="5-minute interval",ylab="Average number of steps taken")
-```
-
-2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r echo = TRUE}
 max_steps_interval <- steps_interval$interval[which.max(steps_interval$steps)]
 max_steps <- steps_interval$steps[which.max(steps_interval$steps)]
 text(max_steps_interval, max_steps, labels=c(paste("Max step of ",round(max_steps,digits=2)," at interval ",max_steps_interval)), cex= 0.7)
